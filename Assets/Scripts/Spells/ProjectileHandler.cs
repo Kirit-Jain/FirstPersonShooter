@@ -1,15 +1,21 @@
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class ProjectileController : MonoBehaviour
 {
+    [Header("Reference Variables")]
+    [SerializeField] GameObject HitVFXPrefab;
+
     [Header("Tunning Variables")]
     [SerializeField] float speed = 30f;
     [SerializeField] int damageAmount = 1;
     [SerializeField] float lifetime = 5f;
+    [SerializeField] float vfxSpawnOffset = 0.2f;
 
 
     //Variables
     Rigidbody rb;
+    Vector3 vfxSpawnPoint;
     bool isFired = false;
 
 
@@ -18,10 +24,11 @@ public class ProjectileController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    public void Fire()
+    public void Fire(Vector3 hitPoint)
     {
         if (rb != null)
         {
+            vfxSpawnPoint = hitPoint;
             Destroy(gameObject, lifetime);
 
             rb.isKinematic = false;
@@ -40,6 +47,15 @@ public class ProjectileController : MonoBehaviour
         {
             enemyHealth.TakeDamage(damageAmount);
         }
+
+        // Vector3 hitPoint = other.ClosestPoint(transform.position);
+
+        // Vector3 surfaceNormal = (transform.position - hitPoint).normalized;
+
+        
+            
+        Instantiate(HitVFXPrefab, vfxSpawnPoint, Quaternion.identity);
+        
 
         Destroy(gameObject, 0.01f);
     }

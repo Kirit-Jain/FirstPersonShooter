@@ -47,7 +47,7 @@ ParticleSystem:
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  emitterVelocityMode: 1
+  emitterVelocityMode: 0
   looping: 1
   prewarm: 0
   playOnAwake: 1
@@ -4941,6 +4941,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14a36cb41b277c245a5b20f42b757f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HitVFXPrefab: {fileID: 2968645949593191656, guid: 443be64868312a647a58d70b195e10ea, type: 3}
   speed: 30
   damageAmount: 1
   lifetime: 5
@@ -4967,8 +4968,8 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
+  m_IsKinematic: 0
+  m_Interpolate: 2
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!135 &8683059079549304845
@@ -5039,7 +5040,7 @@ ParticleSystem:
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  emitterVelocityMode: 1
+  emitterVelocityMode: 0
   looping: 1
   prewarm: 0
   playOnAwake: 1
