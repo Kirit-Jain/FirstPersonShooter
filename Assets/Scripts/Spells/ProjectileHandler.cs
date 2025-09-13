@@ -3,20 +3,14 @@ using UnityEngine.VFX;
 
 public class ProjectileController : MonoBehaviour
 {
-    [Header("Reference Variables")]
-    [SerializeField] GameObject HitVFXPrefab;
 
     [Header("Tunning Variables")]
-    [SerializeField] float speed = 30f;
-    [SerializeField] int damageAmount = 1;
-    [SerializeField] float lifetime = 5f;
-    // [SerializeField] float vfxSpawnOffset = 0.2f;
+    [SerializeField] public int damageAmount = 1;
+    [SerializeField] public float speed = 30f;
 
 
     //Variables
     Rigidbody rb;
-    Vector3 vfxSpawnPoint;
-    bool isFired = false;
 
 
     void Awake()
@@ -24,39 +18,25 @@ public class ProjectileController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    public void Fire(Vector3 hitPoint)
+    public void Fire(Vector3 targetPoint)
     {
         if (rb != null)
         {
-            vfxSpawnPoint = hitPoint;
-            Destroy(gameObject, lifetime);
+            float distance = Vector3.Distance(transform.position, targetPoint);
 
             rb.isKinematic = false;
             rb.linearVelocity = transform.forward * speed;
-            isFired = true;
-        }
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if (!isFired || collision.gameObject.CompareTag("Player")) return;
-
-        EnemyHealth enemyHealth = collision.gameObject.GetComponent<EnemyHealth>();
-
-        if (enemyHealth != null)
-        {
-            enemyHealth.TakeDamage(damageAmount);
-        }
-
-        // Vector3 hitPoint = other.ClosestPoint(transform.position);
-
-        // Vector3 surfaceNormal = (transform.position - hitPoint).normalized;
-
-        
             
-        Instantiate(HitVFXPrefab, this.transform.position, Quaternion.identity);
-        
+            if (speed > 0)
+            {
+                float lifeTime = distance / speed;
+                Destroy(gameObject, lifeTime);
+            }
+            else
+            {
+                Destroy(gameObject, 5f);
+            }
 
-        Destroy(gameObject, 0.01f);
+        }
     }
 }
