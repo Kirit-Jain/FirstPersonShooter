@@ -10,7 +10,7 @@ public class ProjectileController : MonoBehaviour
     [SerializeField] float speed = 30f;
     [SerializeField] int damageAmount = 1;
     [SerializeField] float lifetime = 5f;
-    [SerializeField] float vfxSpawnOffset = 0.2f;
+    // [SerializeField] float vfxSpawnOffset = 0.2f;
 
 
     //Variables
@@ -37,11 +37,11 @@ public class ProjectileController : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision collision)
     {
-        if (!isFired || other.CompareTag("Player")) return;
+        if (!isFired || collision.gameObject.CompareTag("Player")) return;
 
-        EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
+        EnemyHealth enemyHealth = collision.gameObject.GetComponent<EnemyHealth>();
 
         if (enemyHealth != null)
         {
@@ -54,7 +54,7 @@ public class ProjectileController : MonoBehaviour
 
         
             
-        Instantiate(HitVFXPrefab, vfxSpawnPoint, Quaternion.identity);
+        Instantiate(HitVFXPrefab, this.transform.position, Quaternion.identity);
         
 
         Destroy(gameObject, 0.01f);
